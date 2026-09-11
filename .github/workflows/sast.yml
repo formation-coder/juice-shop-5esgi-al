@@ -33,3 +33,15 @@ jobs:
         run: |
           echo "::error::Semgrep a remonte des findings bloquants"
           exit 1
+
+  secret-detection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # sans ça, gitleaks ne voit qu'un seul commit
+
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "true"
