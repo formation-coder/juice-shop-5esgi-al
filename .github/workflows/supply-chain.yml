@@ -91,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Build de l'image
-        run: docker build -f Dockerfile.ci -t juice-shop:ci .
+        run: docker build -f Dockerfile.harden -t juice-shop:ci .
       - name: Trivy image
         id: trivy
         continue-on-error: true
