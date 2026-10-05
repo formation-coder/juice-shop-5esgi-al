@@ -4,7 +4,16 @@ WORKDIR /juice-shop
 COPY . /juice-shop
 RUN npm install -g typescript@^6.0.3
 RUN npm install --omit=dev
-RUN npm run build
+RUN npm dedupe --omit=dev
+RUN rm -rf frontend/node_modules
+RUN rm -rf frontend/.angular
+RUN rm -rf frontend/src/assets
+RUN mkdir logs
+RUN chown -R 65532 logs
+RUN chgrp -R 0 ftp/ frontend/dist/ logs/ data/ i18n/
+RUN chmod -R g=u ftp/ frontend/dist/ logs/ data/ i18n/
+RUN rm ftp/legal.md || true
+RUN rm i18n/*.json || true
 # ENV JWT_SECRET=cn2VmHqPRq5FYd7hM8yTgKzXwLbEjA4s
 # EXPOSE 3000
 # CMD ["npm", "start"]
